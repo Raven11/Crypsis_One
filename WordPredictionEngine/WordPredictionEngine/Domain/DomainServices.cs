@@ -92,5 +92,10 @@ namespace WordPredictionEngine.Domain
                 }
             }
         }
+
+        public string PredictNextWord( string word )
+        {
+            return string.Empty;
+        }
     }
 }

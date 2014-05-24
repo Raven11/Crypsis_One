@@ -1,0 +1,51 @@
+﻿
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Query Page</title>
+        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery-1.5.1.min.js"></script>
+        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/JQuery-ui.js"></script>
+        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery.popover-1.1.2.js"></script>
+        
+        
+    </head>
+    <body>
+
+        <div style="margin-left: 20%;">
+            <h4 id="learn">LEARN:</h4><input type="text" value="directoryname-or-filename" size="70" style="height: 40px;font-size: large" id="learnbox" />
+            <h4 id="learns">LEARNS:</h4><input type="text" value="sentence" size="70" style="height: 40px;font-size: large" id="learnsbox" />
+            <h4 id="predict">PREDICT:</h4><input type="text" value="word" size="70" style="height: 40px;font-size: large" id="predictbox" />
+        </div>
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#learn").tooltip({ content: "Reads the filepath or files inside the directorypath" + "</br>" +
+                    " and update the prediction rules based on data inside."
+                });
+                $("#learns").tooltip({ content: "prediction engine updates the rules based on the sentence given." });
+                $("#predict").tooltip({ content: "prints the word most likely to come after input " });
+
+                $("learnbox").focusin(function () {
+                    $(this).htmlText("");
+                });
+                $("learnbox").focusout(function () {
+                    $(this).htmlText("directoryname-or-filename");
+                });
+                $("learnsbox").focusin(function () {
+                    $(this).htmlText("");
+                });
+                $("learnsbox").focusout(function () {
+                    $(this).htmlText("sentence");
+                });
+                $("predictbox").focusin(function () {
+                    $(this).htmlText("");
+                });
+                $("predictbox").focusout(function () {
+                    $(this).htmlText("word");
+                });
+            });
+
+            
+        </script>
+    </body>
+</html>

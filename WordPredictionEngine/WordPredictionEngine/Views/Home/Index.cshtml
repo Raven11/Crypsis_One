@@ -1,4 +1,4 @@
-﻿@using System.Web.UI.WebControls
+﻿
 @{
     ViewBag.Title = "Word Prediction Engine";
 }
@@ -6,12 +6,17 @@
 <html>
     <head>
         <title>@ViewBag.Title</title>
+        
     </head>
     <body>
-        <h1 style="margin-left: 35%; margin-top: 10%; text-decoration: underline ">Word Prediction Engine</h1>
-        <div style="margin-top: 13%;margin-left: 28%;">
+        <div id="textQueries" style="float: left;background-color:palegoldenrod;width: 10%;padding: 20px;font-size: large;text-align: center" >
+            <a href="~/Home/Query"> Text Queries</a>
+        </div>
+         <div style="margin-left: 38%; font-size: xx-large;">Word Prediction Engine</div>
+        <div style="margin-top: 24%;margin-left: 28%;">
             <input type="text" value="Type Here.." size="70" style="height: 40px;font-size: large" onclick="onclickFunc(this)" />
         </div>
+        <div id="dialog" style="overflow: hidden"></div>
         <script type="text/javascript">
             function onclickFunc(id) {
                 id.value = "";

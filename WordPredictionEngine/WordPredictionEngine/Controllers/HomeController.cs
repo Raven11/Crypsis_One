@@ -17,5 +17,10 @@ namespace WordPredictionEngine.Controllers
             
             return View( );
         }
+
+        public ActionResult Query( )
+        {
+            return PartialView( );
+        }
     }
 }
