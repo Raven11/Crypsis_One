@@ -10,11 +10,12 @@ namespace WordPredictionEngine.Domain
     {
         private static Dictionary< string, Dictionary< string, int > > wordPredictionDictionary;
 
-        private Dictionary< string, Dictionary< string, int > > WordDictInstance
+        private static Dictionary< string, Dictionary< string, int > > WordDictInstance
         {
             get
             {
-                return wordPredictionDictionary ?? new Dictionary< string, Dictionary< string, int > >( );
+                return wordPredictionDictionary
+                       ?? ( wordPredictionDictionary = new Dictionary< string, Dictionary< string, int > >( ) );
             }
         }
         
@@ -87,6 +88,15 @@ namespace WordPredictionEngine.Domain
                         else
                         {
                             WordDictInstance.Add(words[i], new Dictionary<string, int>());
+                            if (i != cnt - 1)
+                            {
+                                WordDictInstance[words[i]].Add(words[i + 1], 0);
+                            }
+                            else
+                            {
+                                WordDictInstance[words[i]].Add(string.Empty, -1);
+                            }
+
                         }
                     }
                 }
@@ -95,7 +105,34 @@ namespace WordPredictionEngine.Domain
 
         public string PredictNextWord( string word )
         {
-            return string.Empty;
+            string mostLikelyNextWord = string.Empty;
+            int max = 0;
+
+            if ( WordDictInstance.ContainsKey( word ) )
+            {
+                foreach ( var item in WordDictInstance[word] )
+                {
+                    if ( item.Value > max )
+                    {
+                        max = item.Value;
+                        mostLikelyNextWord = item.Key;
+                    }
+                }
+            }
+            return mostLikelyNextWord;
+        }
+
+        public List< string > NextWordList( string word )
+        {
+            List<string> list = new List< string >();
+            if ( WordDictInstance.ContainsKey( word ) )
+            {
+                foreach ( var item in WordDictInstance[ word ] )
+                {
+                    list.Add(item.Key);
+                }
+            }
+            return list;
         }
     }
 }

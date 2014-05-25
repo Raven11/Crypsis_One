@@ -12,15 +12,35 @@
     <body>
 
         <div style="margin-left: 20%;">
-            <h4 id="learn">LEARN:</h4><input type="text" value="directoryname-or-filename" size="70" style="height: 40px;font-size: large" id="learnbox" />
-            <h4 id="learns">LEARNS:</h4><input type="text" value="sentence" size="70" style="height: 40px;font-size: large" id="learnsbox" />
-            <h4 id="predict">PREDICT:</h4><input type="text" value="word" size="70" style="height: 40px;font-size: large" id="predictbox" />
+            @using (Ajax.BeginForm("LearnFromFiles","Home",new AjaxOptions()) )
+            {
+                <h4 id="learn">LEARN:</h4>
+                <input type="text" value="directoryname-or-filename" name="path" size="70" style="height: 40px; font-size: large" id="learnbox" />
+                <input type="submit" value="LearnFromDisk"/>
+            }
+            @using ( Ajax.BeginForm( "LearnFromASentence", "Home", new AjaxOptions( ) ) )
+            {
+
+                <h4 id="learns">LEARNS:</h4>
+                <input type="text" value="sentence" name="sentence" size="70" style="height: 40px; font-size: large" id="learnsbox" />
+                <input type="submit" value="Learn"/>
+            } 
+            @using (Ajax.BeginForm("predict", "Home", new AjaxOptions(){OnSuccess = "processResponse"}))
+            {
+                <h4 id="predict">PREDICT:</h4>
+                <input type="text" value="word" size="70" name="word" style="height: 40px; font-size: large" id="predictbox" />
+                <input type="submit" value="Predict"/>
+            }
         </div>
+        <div id=""></div>
         
         <script type="text/javascript">
+            function processResponse(response) {
+                alert("Next Word is:" + response.data);
+            }
             $(document).ready(function() {
                 $("#learn").tooltip({ content: "Reads the filepath or files inside the directorypath" + "</br>" +
-                    " and update the prediction rules based on data inside."
+                        " and update the prediction rules based on data inside."
                 });
                 $("#learns").tooltip({ content: "prediction engine updates the rules based on the sentence given." });
                 $("#predict").tooltip({ content: "prints the word most likely to come after input " });
@@ -45,7 +65,6 @@
                 });
             });
 
-            
         </script>
     </body>
 </html>
