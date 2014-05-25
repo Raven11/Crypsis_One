@@ -3,10 +3,12 @@
 <html>
     <head>
         <title>Query Page</title>
+        
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery-1.5.1.min.js"></script>
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/JQuery-ui.js"></script>
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery.popover-1.1.2.js"></script>
-        
+        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery.unobtrusive-ajax.js" ></script>
+        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery.unobtrusive-ajax.min.js"></script>
         
     </head>
     <body>
@@ -25,18 +27,19 @@
                 <input type="text" value="sentence" name="sentence" size="70" style="height: 40px; font-size: large" id="learnsbox" />
                 <input type="submit" value="Learn"/>
             } 
-            @using (Ajax.BeginForm("predict", "Home", new AjaxOptions(){OnSuccess = "processResponse"}))
+            @using (Ajax.BeginForm("predict", "Home", new AjaxOptions() { OnSuccess = "processResponse" }))
             {
                 <h4 id="predict">PREDICT:</h4>
                 <input type="text" value="word" size="70" name="word" style="height: 40px; font-size: large" id="predictbox" />
                 <input type="submit" value="Predict"/>
             }
         </div>
-        <div id=""></div>
+        <div id="PredictedWord" style="display: none; background-color: palegoldenrod; width: 10%; padding: 20px; font-size: large; text-align: center"></div>
         
         <script type="text/javascript">
             function processResponse(response) {
-                alert("Next Word is:" + response.data);
+                document.getElementById('PredictedWord').style.display = 'inline';
+                $('#PredictedWord').html(response.tostring());
             }
             $(document).ready(function() {
                 $("#learn").tooltip({ content: "Reads the filepath or files inside the directorypath" + "</br>" +

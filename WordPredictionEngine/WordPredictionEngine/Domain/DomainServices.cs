@@ -30,7 +30,7 @@ namespace WordPredictionEngine.Domain
             }
             catch ( Exception e )
             {
-                File.AppendAllText( "~/ErrorLog.txt" ,e.Message +"\nIt Occured On " +DateTime.Now);
+                File.AppendAllText( "C:/ErrorLog.log" ,e.Message +"\nIt Occured On " +DateTime.Now);
                 return;
             }
             foreach ( var line in allLines )
@@ -48,7 +48,7 @@ namespace WordPredictionEngine.Domain
             }
             catch (Exception e)
             {
-                File.AppendAllText("~/ErrorLog.txt", e.Message + "\nIt Occured On " + DateTime.Now);
+                File.AppendAllText("C:/ErrorLog.log", e.Message + "\nIt Occured On " + DateTime.Now);
                 return;
             }
             foreach (var line in allLines)
@@ -81,7 +81,7 @@ namespace WordPredictionEngine.Domain
                                 }
                             }
                             else
-                            {
+                            {  if(!WordDictInstance[words[i]].ContainsKey(string.Empty))                              
                                 WordDictInstance[words[i]].Add(string.Empty, -1);
                             }
                         }

@@ -37,7 +37,10 @@ namespace WordPredictionEngine.Controllers
         {
             if ( !string.IsNullOrEmpty( path ) )
             {
-                this.DomainServicesInstance().LearnFromFiles(path);
+                if(path.Contains(".txt"))
+                    this.DomainServicesInstance().LearnFromFile(path);
+                else
+                    this.DomainServicesInstance().LearnFromFiles(path);
             }
             return RedirectToAction("Query", "Home");
         }
