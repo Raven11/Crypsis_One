@@ -64,12 +64,15 @@ namespace WordPredictionEngine.Controllers
         }
         public JsonResult NextWordList(string word)
         {
+            var listOfNextWords = new List< string >();
+            
             if ( !string.IsNullOrEmpty( word ) )
             {
-                var listOfNextWords = this.DomainServicesInstance( ).NextWordList( word );
-                return Json( listOfNextWords, JsonRequestBehavior.AllowGet );
+                listOfNextWords = this.DomainServicesInstance( ).NextWordList( word );
+                
             }
-            return Json( string.Empty, JsonRequestBehavior.AllowGet );
+            return Json(listOfNextWords, JsonRequestBehavior.AllowGet);
+            //return Json( string.Empty, JsonRequestBehavior.AllowGet );
         }
     }
 }

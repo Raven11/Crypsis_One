@@ -6,8 +6,11 @@
 <html>
     <head>
         <title>@ViewBag.Title</title>
+        <link rel="stylesheet" href="/WordPredictionEngine/Content/jquery-ui.css">
+        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery-1.10.2.js"></script>
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery.js"></script>
-        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery-1.5.1.min.js"></script>
+        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery-ui-1.8.16.custom.min.js"></script>
+        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery-1.11.1.min.js"></script>
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/JQuery-ui.js"></script>
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery.popover-1.1.2.js"></script>
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery.unobtrusive-ajax.js"></script>
@@ -28,21 +31,71 @@
         
         <script type="text/javascript">
             
+            $(function() {
+                
+                function split( val ) {
+                    return val.split(" ");
+                }
+                function isEmpty(str) {
+                    return (!str || 0 === str.length);
+                }
+                function extractLast(term) {
+                    debugger;
+                    var val = split(term);
+                    var str = val.pop();
+                    while (isEmpty(str)) {
+                        str = val.pop();
+                    }
+                    return str;
+                }
 
-            $('#Suggest').autocomplete({
-                source: function (request, response) {
-                    var text = request.term;
-                    var lastword = text.split(" ").pop();
-                    $.ajax({
-                        url: "Home/NextWordList",
-                        type: "POST",
-                        data: {word: lastword},
-                        dataType: "json",
-                        success: function (data) {
-                            response(data);
+                $('#Suggest')
+                    //don't navigate away from the field on tab when selecting an item
+                    .bind( "keydown", function( event ) {
+                        if ( event.keyCode === $.ui.keyCode.TAB &&
+                            $( this ).data( "ui-autocomplete" ).menu.active ) {
+                            event.preventDefault();
+                        }
+                    })
+                    .autocomplete({
+                        minLength: 0,
+                        source: function (request, response) {
+                            debugger;
+                            var lastword = extractLast(request.term);
+                            var nextWordList = [];
+                            $.ajax({
+                                async: false,
+                                url: 'NextWordList',
+                                type: 'GET',
+                                dataType: 'json',
+                                data: { word: lastword },
+                                success: function(jsonData) {
+                                    $.each(jsonData, function() {
+                                        nextWordList.push(this.toString());
+                                    });
+                                }
+
+                            });
+
+                            response(nextWordList);
+                        },
+                        focus: function () {
+                            // prevent value inserted on focus
+                            return false;
+                        },
+                        select: function (event, ui) {
+                            var terms = split(this.value);
+                            // remove the current input
+                            //terms.pop();
+                            // add the selected item
+                            terms.push(ui.item.value);
+                            // add placeholder to get the comma-and-space at the end
+                            terms.push("");
+                            this.value = terms.join( " " );
+                            //this.value = ui.item.value;
+                            return false;
                         }
                     });
-                }
             });
         </script>
     </body>

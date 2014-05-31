@@ -4,7 +4,7 @@
     <head>
         <title>Query Page</title>
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery.js"></script>
-        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery-1.5.1.min.js"></script>
+        <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery-1.11.1.min.js"></script>
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/JQuery-ui.js"></script>
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery.popover-1.1.2.js"></script>
         <script language="javascript" type="text/javascript" src="/WordPredictionEngine/Scripts/jquery.unobtrusive-ajax.js" ></script>
@@ -18,7 +18,7 @@
     <body>
 
         <div style="margin-left: 20%;">
-            @using (Ajax.BeginForm("LearnFromFiles","Home",new AjaxOptions()) )
+            @using (Ajax.BeginForm("LearnFromFiles","Home",new AjaxOptions(){ OnSuccess = "OnReadFromDisk"}) )
             {
                 <h4 id="learn">LEARN:</h4>
                 <input type="text" value="directoryname-or-filename" name="path" size="70" style="height: 40px; font-size: large" id="learnbox" />
@@ -41,6 +41,9 @@
         <div id="PredictedWord" style="float: left ;display: none; background-color: palegoldenrod; width: 10%; padding: 20px; font-size: large; text-align: center"></div>
         
         <script type="text/javascript">
+            function OnReadFromDisk() {
+                alert("Successfully Learned From Disk!");
+            }
             function processResponse(response) {
                 document.getElementById('PredictedWord').style.display = 'inline';
                 var t = '<p>' + response + '</p>';
